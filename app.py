@@ -37,7 +37,7 @@ def login():
             session['user_id'] = user.id
             session['username'] = user.username
             flash('Login successful!', 'success')
-            return redirect(url_for('home'))
+            return redirect(url_for('index.html'))  
         else:
             flash('Login unsuccessful. Please check username and password', 'danger')
     
@@ -68,8 +68,12 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         
-        flash('Your account has been created! You can now log in.', 'success')
-        return redirect(url_for('login'))
+        
+        session['user_id'] = new_user.id
+        session['username'] = new_user.username
+        
+        flash('Registration successful! You are now logged in.', 'success')
+        return redirect(url_for('index.html')) 
     
     return render_template('register.html', title='Register - Chatify')
 
@@ -97,3 +101,4 @@ with app.app_context():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
